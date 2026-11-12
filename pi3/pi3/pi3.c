@@ -22,7 +22,8 @@
 #define GAS_PARTICLES 80
 #endif
 #define GAS_RADIUS 2
-#define GAS_LEFT 24
+// Reserve the left column for the project title and subtitle.
+#define GAS_LEFT 224
 #define GAS_RIGHT 615
 #define GAS_TOP 24
 #define GAS_BOTTOM 455
@@ -210,6 +211,11 @@ static void core1_render(void) {
         while (!draw_start_signal()) tight_loop_contents();
         uint32_t start=time_us_32();
         clearLowFrame(0,BLACK);
+        // Redraw text in each back buffer, using Lab 2's 16x32 and 6x7 fonts.
+        // Wrap the subtitle to keep it entirely inside the left column.
+        drawTextGrotesk32(24,198,"OUTBREAK",WHITE,BLACK);
+        drawTextAscii(24,244,"ECE 5730",WHITE,BLACK);
+        drawTextAscii(24,260,"Distributed Computing Project",WHITE,BLACK);
         drawRect(GAS_LEFT,GAS_TOP,GAS_RIGHT-GAS_LEFT+1,GAS_BOTTOM-GAS_TOP+1,WHITE);
         for (int i=0; i<GAS_PARTICLES; ++i)
             drawCircle(frame[i].x,frame[i].y,GAS_RADIUS,WHITE);
